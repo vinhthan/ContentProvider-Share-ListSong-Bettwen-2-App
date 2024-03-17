@@ -1,9 +1,6 @@
-# ContentProvider-Share-ListSong-Bettwen-2-App
-
-Để hiểu rõ hơn về cách ứng dụng A truy cập dữ liệu danh sách bài hát từ ContentProvider của ứng dụng B, hãy xem ví dụ sau:
-
 Ứng dụng B (ContentProvider):
-a. Triển khai Song và SongProvider:
+
+Triển khai Song và SongProvider:
 // Song.kt
 data class Song(val id: Long, val title: String, val artist: String)
 
@@ -57,7 +54,7 @@ class SongProvider : ContentProvider() {
 }
 
 
-b. Đăng ký ContentProvider trong AndroidManifest.xml:
+2: Đăng ký ContentProvider trong AndroidManifest.xml
 <application>
     <!-- ... -->
     <provider
@@ -66,8 +63,10 @@ b. Đăng ký ContentProvider trong AndroidManifest.xml:
         android:exported="false"/>
 </application>
 
+
 Ứng dụng A:
-a. Sử dụng ContentProvider từ ứng dụng A:
+1. Sử dụng ContentResolver để truy cập dữ liệu từ ứng dụng B:
+
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -95,8 +94,8 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
+
+//
 Trong ví dụ này, ứng dụng A sử dụng ContentResolver để truy vấn dữ liệu từ ContentProvider của ứng dụng B thông qua URI content://com.example.appb.provider/songs.
 
-Hãy chắc chắn rằng android:authorities trong AndroidManifest.xml của ứng dụng B là "com.example.appb.provider" và bạn đã đăng ký ContentProvider của mình đúng cách.
-
-Lưu ý rằng việc giao tiếp giữa các ứng dụng thông qua ContentProvider yêu cầu quyền truy cập và khai báo chính xác trong tệp AndroidManifest.xml của ứng dụng cung cấp dữ liệu (ứng dụng B).
+Lưu ý rằng bạn cần cung cấp quyền truy cập cho ứng dụng A để truy cập vào ContentProvider của ứng dụng B. Điều này có thể thực hiện bằng cách sử dụng android:exported="true" trong khai báo của ContentProvider trong AndroidManifest.xml của ứng dụng B, hoặc thông qua các cấp quyền runtime.
